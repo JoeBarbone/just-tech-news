@@ -1,5 +1,6 @@
 const { Model, DataTypes, UniqueConstraintError } = require("sequelize");
 const sequelize = require("../config/connection");
+const bcrypt = require("bcrypt");
 
 // create our model by exending the Model and DataTypes from Model
 class User extends Model {}
@@ -48,8 +49,24 @@ User.init (
         }
     },
     {
-        // TABLE CONFIGURATION OPTIONS GO HERE (https://sequelize.org/v5/manual/models-definition.html#configuration))
+        
+        hooks:  {
 
+            
+            // set up beforeCreate lifestyle hook functionality
+            async beforeCreate(newUserData) {
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);
+                    return newUserData;
+            },
+        
+            // set up beforeCreate lifestyle hook functionality
+            async beforeUpdate(updatedUserData) {
+                updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+                    return updatedUserData;
+            }
+
+        },
+        
         // pass in our imported sequelize connection (the direct connection to the database)
 
         sequelize,
