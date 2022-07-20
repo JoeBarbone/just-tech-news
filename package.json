@@ -4,7 +4,8 @@
   "description": "Week 13 - Just Tech News",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "seed": "node seeds/index.js"
   },
   "repository": {
     "type": "git",
